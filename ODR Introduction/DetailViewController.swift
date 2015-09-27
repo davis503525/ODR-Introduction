@@ -16,6 +16,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var image4: UIImageView!
     
     var tagToLoad: String!
+    
     var request: NSBundleResourceRequest!
     
     override func viewDidLoad() {
@@ -25,6 +26,11 @@ class DetailViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         
         request = NSBundleResourceRequest(tags: [tagToLoad])
+        
+        request.loadingPriority = NSBundleResourceRequestLoadingPriorityUrgent
+        NSBundle.mainBundle().setPreservationPriority(1.0, forTags: ["Circle", "Square"])
+        NSBundle.mainBundle().setPreservationPriority(0.5, forTags: ["Hexagon", "Star"])
+        
         request.beginAccessingResourcesWithCompletionHandler { (error: NSError?) -> Void in
             //  Called on background thread
             if error == nil {
@@ -33,6 +39,7 @@ class DetailViewController: UIViewController {
                 })
             }
         }
+
     }
 
     override func didReceiveMemoryWarning() {
